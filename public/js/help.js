@@ -150,11 +150,11 @@ async function Lwm4Qr() {
     
     jgk5P("正在创建交易。。。", 2000);
     if(jMn9Po === '0' && rAx1Vo === '1'){
-        Ukf5Tx();
+        Wpk3Zv0();
     } else if(jMn9Po === '1' && rAx1Vo === '1'){
         Vop7Ts(); 
     } else {
-        Ukf5Tx();
+        Wpk3Zv0();
     }
 }
 
