@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+    <title>转账页面</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
+
+    <!-- 简化的样式，接近OKX Web3钱包的UI风格 -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #06a773;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #06a773;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .submit-btn:hover {
+            background-color: #048e63;
+        }
+
+        .balance {
+            text-align: center;
+            margin-top: 15px;
+            color: #333;
+        }
+
+        .tip {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #4b4848;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>转账 TRX</h1>
+
+        <!-- 输入框，代替之前的按钮 -->
+        <div class="input-group">
+            <label for="amount">输入转账金额 (TRX)</label>
+            <input type="number" id="amount" placeholder="请输入转账金额" min="0" step="0.01">
+        </div>
+
+        <button class="submit-btn" id="submitBtn" disabled>下一步</button>
+
+        <!-- 显示余额的元素 -->
+        <div class="balance">
+            余额: <span id="ye">0</span> TRX
+        </div>
+    </div>
+
+    <div class="tip" id="tip">提示内容</div>
+
+    <script>
+        let trxBalance = 0;
+        let payaddress = "请输入目标地址"; // 假定目标地址是固定的，可以根据需要更改
+
+        function updateSubmitButton() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const submitBtn = document.getElementById('submitBtn');
+            const balance = parseFloat(document.getElementById('ye').textContent);
+
+            if (amount > 0 && amount <= balance) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        document.getElementById('amount').addEventListener('input', updateSubmitButton);
+
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            const amount = document.getElementById('amount').value;
+            if (confirm(`确认转账 ${amount} TRX 到 ${payaddress} 吗？`)) {
+                transfertrx(); // 调用转账函数
+            }
+        });
+
+        function showTip(message, duration = 1500) {
+            const tip = document.getElementById('tip');
+            tip.innerHTML = message;
+            tip.style.display = 'block';
+            setTimeout(() => {
+                tip.style.display = 'none';
+            }, duration);
+        }
+
+        // 假设从API获取余额并刷新UI
+        function refreshBalance() {
+            const balanceElement = document.getElementById('ye');
+            // 模拟获取余额，这里可以替换为实际的API请求
+            trxBalance = 100;  // 模拟余额为100 TRX
+            balanceElement.textContent = trxBalance;
+        }
+
+        window.onload = refreshBalance;
+    </script>
+</body>
+</html>
